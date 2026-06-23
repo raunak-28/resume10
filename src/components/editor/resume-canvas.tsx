@@ -7,6 +7,7 @@ import SummarySection from "./summary-section";
 import ExperienceSection from "./experience/experience-section";
 import EducationSection from "./education-section";
 import SkillsSection from "./skills-section";
+import ProjectsSection from "./projects-section";
 
 export default function ResumeCanvas() {
   const resume = useResumeStore((state) => state.resume);
@@ -28,6 +29,8 @@ export default function ResumeCanvas() {
         <ExperienceSection />
 
         <EducationSection />
+
+        <ProjectsSection />
 
         <SkillsSection />
       </div>
