@@ -6,8 +6,7 @@ import { useResumeStore } from "@/features/resume";
 import { createId } from "@/lib/id";
 
 export default function ProjectsSection() {
-  const { resume, addProject, updateProject, removeProject } =
-    useResumeStore();
+  const { resume, addProject, updateProject, removeProject } = useResumeStore();
 
   const handleAdd = () => {
     addProject({
@@ -41,9 +40,7 @@ export default function ProjectsSection() {
                 value={project.title}
                 placeholder="Project title"
                 className="text-lg font-semibold"
-                onChange={(value) =>
-                  updateProject(project.id, "title", value)
-                }
+                onChange={(value) => updateProject(project.id, "title", value)}
               />
 
               <button
@@ -59,7 +56,11 @@ export default function ProjectsSection() {
               placeholder="Project description (one line per bullet)"
               className="mt-3"
               onChange={(value) =>
-                updateProject(project.id, "description", value.split("\n").filter(Boolean))
+                updateProject(
+                  project.id,
+                  "description",
+                  value.split("\n").filter(Boolean),
+                )
               }
             />
 
@@ -74,7 +75,7 @@ export default function ProjectsSection() {
                   value
                     .split(",")
                     .map((t) => t.trim())
-                    .filter(Boolean)
+                    .filter(Boolean),
                 )
               }
             />
@@ -83,9 +84,7 @@ export default function ProjectsSection() {
               <EditableText
                 value={project.github ?? ""}
                 placeholder="GitHub URL"
-                onChange={(value) =>
-                  updateProject(project.id, "github", value)
-                }
+                onChange={(value) => updateProject(project.id, "github", value)}
               />
 
               <EditableText

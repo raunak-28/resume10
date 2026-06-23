@@ -1,6 +1,7 @@
 "use client";
 
 import { useResumeStore } from "@/features/resume";
+import templates from "@/features/resume/templates";
 
 import HeaderSection from "./header-section";
 import SummarySection from "./summary-section";
@@ -11,6 +12,9 @@ import ProjectsSection from "./projects-section";
 
 export default function ResumeCanvas() {
   const resume = useResumeStore((state) => state.resume);
+  const selectedTemplateId = useResumeStore((s) => s.selectedTemplateId);
+
+  const template = templates.find((t) => t.id === selectedTemplateId);
 
   return (
     <div className="flex justify-center py-8">
@@ -22,17 +26,23 @@ export default function ResumeCanvas() {
           padding: "24mm",
         }}
       >
-        <HeaderSection />
+        {template ? (
+          <div>{template.render(resume)}</div>
+        ) : (
+          <>
+            <HeaderSection />
 
-        <SummarySection />
+            <SummarySection />
 
-        <ExperienceSection />
+            <ExperienceSection />
 
-        <EducationSection />
+            <EducationSection />
 
-        <ProjectsSection />
+            <ProjectsSection />
 
-        <SkillsSection />
+            <SkillsSection />
+          </>
+        )}
       </div>
     </div>
   );

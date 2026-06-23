@@ -72,6 +72,10 @@ interface ResumeStore {
   ) => void;
 
   removeProject: (id: string) => void;
+
+  selectedTemplateId: string;
+
+  setSelectedTemplate: (id: string) => void;
 }
 
 export const useResumeStore =
@@ -298,5 +302,14 @@ export const useResumeStore =
                 project.id !== id
             ),
         },
+      })),
+
+    // template selection
+    selectedTemplateId: "simple",
+
+    setSelectedTemplate: (id: string) =>
+      set((state) => ({
+        ...state,
+        selectedTemplateId: id,
       })),
   }));
