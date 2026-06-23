@@ -1,11 +1,9 @@
-export interface ResumeTemplate{
+import { ReactNode } from "react";
+import { Resume } from "../types/resume";
 
- id:string;
-
- name:string;
-
- thumbnail:string;
-
- render:(resume:Resume)=>ReactNode;
-
+export interface ResumeTemplate {
+  id: string;
+  name: string;
+  thumbnail: string;
+  render: (resume: Resume) => ReactNode;
 }

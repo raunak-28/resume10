@@ -13,6 +13,7 @@ import ProjectsSection from "./projects-section";
 export default function ResumeCanvas() {
   const resume = useResumeStore((state) => state.resume);
   const selectedTemplateId = useResumeStore((s) => s.selectedTemplateId);
+  const isPreviewMode = useResumeStore((s) => s.isPreviewMode);
 
   const template = templates.find((t) => t.id === selectedTemplateId);
 
@@ -26,7 +27,7 @@ export default function ResumeCanvas() {
           padding: "24mm",
         }}
       >
-        {template ? (
+        {isPreviewMode && template ? (
           <div>{template.render(resume)}</div>
         ) : (
           <>

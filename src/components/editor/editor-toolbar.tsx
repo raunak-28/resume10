@@ -7,6 +7,8 @@ import { useResumeStore } from "@/features/resume";
 export default function EditorToolbar() {
   const selected = useResumeStore((s) => s.selectedTemplateId);
   const setSelected = useResumeStore((s) => s.setSelectedTemplate);
+  const isPreviewMode = useResumeStore((s) => s.isPreviewMode);
+  const togglePreviewMode = useResumeStore((s) => s.togglePreviewMode);
 
   return (
     <header className="flex h-16 items-center justify-between border-b bg-white px-8">
@@ -28,7 +30,9 @@ export default function EditorToolbar() {
         </select>
 
         <div className="flex gap-3">
-          <Button variant="secondary">Preview</Button>
+          <Button variant="secondary" onClick={togglePreviewMode}>
+            {isPreviewMode ? "Edit" : "Preview"}
+          </Button>
 
           <Button>Download PDF</Button>
         </div>

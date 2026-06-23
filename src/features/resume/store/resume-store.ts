@@ -21,31 +21,25 @@ interface ResumeStore {
 
   updateSummary: (summary: string) => void;
 
-  updatePersonalField: <
-    K extends keyof PersonalInfo
-  >(
+  updatePersonalField: <K extends keyof PersonalInfo>(
     field: K,
-    value: PersonalInfo[K]
+    value: PersonalInfo[K],
   ) => void;
 
-  updateExperience: <
-    K extends keyof Experience
-  >(
+  updateExperience: <K extends keyof Experience>(
     id: string,
     field: K,
-    value: Experience[K]
+    value: Experience[K],
   ) => void;
 
   addExperience: () => void;
 
   removeExperience: (id: string) => void;
 
-  updateEducation: <
-    K extends keyof Education
-  >(
+  updateEducation: <K extends keyof Education>(
     id: string,
     field: K,
-    value: Education[K]
+    value: Education[K],
   ) => void;
 
   addEducation: () => void;
@@ -54,262 +48,222 @@ interface ResumeStore {
 
   addSkill: (skill: Skill) => void;
 
-  updateSkill: (
-    id: string,
-    name: string
-  ) => void;
+  updateSkill: (id: string, name: string) => void;
 
   removeSkill: (id: string) => void;
 
   addProject: (project: Project) => void;
 
-  updateProject: <
-    K extends keyof Project
-  >(
+  updateProject: <K extends keyof Project>(
     id: string,
     field: K,
-    value: Project[K]
+    value: Project[K],
   ) => void;
 
   removeProject: (id: string) => void;
 
   selectedTemplateId: string;
-
+  isPreviewMode: boolean;
   setSelectedTemplate: (id: string) => void;
+  togglePreviewMode: () => void;
 }
 
-export const useResumeStore =
-  create<ResumeStore>((set) => ({
-    resume: mockResume,
+export const useResumeStore = create<ResumeStore>((set) => ({
+  resume: mockResume,
 
-    setResume: (resume) =>
-      set({
-        resume,
-      }),
+  setResume: (resume) =>
+    set({
+      resume,
+    }),
 
-    resetResume: () =>
-      set({
-        resume: mockResume,
-      }),
+  resetResume: () =>
+    set({
+      resume: mockResume,
+    }),
 
-    updateSummary: (summary) =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          summary,
+  updateSummary: (summary) =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        summary,
+      },
+    })),
+
+  updatePersonalField: (field, value) =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        personal: {
+          ...state.resume.personal,
+          [field]: value,
         },
-      })),
+      },
+    })),
 
-    updatePersonalField: (
-      field,
-      value
-    ) =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          personal: {
-            ...state.resume.personal,
-            [field]: value,
+  updateExperience: (id, field, value) =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        experiences: state.resume.experiences.map((experience) =>
+          experience.id === id
+            ? {
+                ...experience,
+                [field]: value,
+              }
+            : experience,
+        ),
+      },
+    })),
+
+  addExperience: () =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        experiences: [
+          ...state.resume.experiences,
+          {
+            id: createId(),
+            company: "",
+            position: "",
+            startDate: "",
+            endDate: "",
+            current: false,
+            location: "",
+            bullets: [],
           },
-        },
-      })),
+        ],
+      },
+    })),
 
-    updateExperience: (
-      id,
-      field,
-      value
-    ) =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          experiences:
-            state.resume.experiences.map(
-              (experience) =>
-                experience.id === id
-                  ? {
-                      ...experience,
-                      [field]: value,
-                    }
-                  : experience
-            ),
-        },
-      })),
+  removeExperience: (id) =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        experiences: state.resume.experiences.filter(
+          (experience) => experience.id !== id,
+        ),
+      },
+    })),
 
-    addExperience: () =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          experiences: [
-            ...state.resume.experiences,
-            {
-              id: createId(),
-              company: "",
-              position: "",
-              startDate: "",
-              endDate: "",
-              current: false,
-              location: "",
-              bullets: [],
-            },
-          ],
-        },
-      })),
+  updateEducation: (id, field, value) =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        education: state.resume.education.map((education) =>
+          education.id === id
+            ? {
+                ...education,
+                [field]: value,
+              }
+            : education,
+        ),
+      },
+    })),
 
-    removeExperience: (id) =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          experiences:
-            state.resume.experiences.filter(
-              (experience) =>
-                experience.id !== id
-            ),
-        },
-      })),
+  addEducation: () =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        education: [
+          ...state.resume.education,
+          {
+            id: createId(),
+            institute: "",
+            degree: "",
+            startDate: "",
+            endDate: "",
+            cgpa: "",
+          },
+        ],
+      },
+    })),
 
-    updateEducation: (
-      id,
-      field,
-      value
-    ) =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          education:
-            state.resume.education.map(
-              (education) =>
-                education.id === id
-                  ? {
-                      ...education,
-                      [field]: value,
-                    }
-                  : education
-            ),
-        },
-      })),
+  removeEducation: (id) =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        education: state.resume.education.filter(
+          (education) => education.id !== id,
+        ),
+      },
+    })),
 
-    addEducation: () =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          education: [
-            ...state.resume.education,
-            {
-              id: createId(),
-              institute: "",
-              degree: "",
-              startDate: "",
-              endDate: "",
-              cgpa: "",
-            },
-          ],
-        },
-      })),
+  addSkill: (skill) =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        skills: [...state.resume.skills, skill],
+      },
+    })),
 
-    removeEducation: (id) =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          education:
-            state.resume.education.filter(
-              (education) =>
-                education.id !== id
-            ),
-        },
-      })),
+  updateSkill: (id, name) =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        skills: state.resume.skills.map((skill) =>
+          skill.id === id
+            ? {
+                ...skill,
+                name,
+              }
+            : skill,
+        ),
+      },
+    })),
 
-    addSkill: (skill) =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          skills: [
-            ...state.resume.skills,
-            skill,
-          ],
-        },
-      })),
+  removeSkill: (id) =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        skills: state.resume.skills.filter((skill) => skill.id !== id),
+      },
+    })),
 
-    updateSkill: (
-      id,
-      name
-    ) =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          skills: state.resume.skills.map(
-            (skill) =>
-              skill.id === id
-                ? {
-                    ...skill,
-                    name,
-                  }
-                : skill
-          ),
-        },
-      })),
+  addProject: (project) =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        projects: [...state.resume.projects, project],
+      },
+    })),
 
-    removeSkill: (id) =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          skills:
-            state.resume.skills.filter(
-              (skill) =>
-                skill.id !== id
-            ),
-        },
-      })),
+  updateProject: (id, field, value) =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        projects: state.resume.projects.map((project) =>
+          project.id === id
+            ? {
+                ...project,
+                [field]: value,
+              }
+            : project,
+        ),
+      },
+    })),
 
-    addProject: (project) =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          projects: [
-            ...state.resume.projects,
-            project,
-          ],
-        },
-      })),
+  removeProject: (id) =>
+    set((state) => ({
+      resume: {
+        ...state.resume,
+        projects: state.resume.projects.filter((project) => project.id !== id),
+      },
+    })),
 
-    updateProject: (
-      id,
-      field,
-      value
-    ) =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          projects:
-            state.resume.projects.map(
-              (project) =>
-                project.id === id
-                  ? {
-                      ...project,
-                      [field]: value,
-                    }
-                  : project
-            ),
-        },
-      })),
+  // template selection
+  selectedTemplateId: "simple",
 
-    removeProject: (id) =>
-      set((state) => ({
-        resume: {
-          ...state.resume,
-          projects:
-            state.resume.projects.filter(
-              (project) =>
-                project.id !== id
-            ),
-        },
-      })),
+  isPreviewMode: false,
 
-    // template selection
-    selectedTemplateId: "simple",
+  setSelectedTemplate: (id: string) =>
+    set((state) => ({
+      ...state,
+      selectedTemplateId: id,
+    })),
 
-    setSelectedTemplate: (id: string) =>
-      set((state) => ({
-        ...state,
-        selectedTemplateId: id,
-      })),
-  }));
+  togglePreviewMode: () =>
+    set((state) => ({
+      ...state,
+      isPreviewMode: !state.isPreviewMode,
+    })),
+}));

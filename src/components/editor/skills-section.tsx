@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useResumeStore } from "@/features/resume";
+import { createId } from "@/lib/id";
 
 export default function SkillsSection() {
   const { resume, addSkill, removeSkill } = useResumeStore();
@@ -9,11 +10,11 @@ export default function SkillsSection() {
   const [newSkill, setNewSkill] = useState("");
 
   const handleAddSkill = () => {
-    const skill = newSkill.trim();
+    const skillName = newSkill.trim();
 
-    if (!skill) return;
+    if (!skillName) return;
 
-    addSkill(skill);
+    addSkill({ id: createId(), name: skillName });
 
     setNewSkill("");
   };
@@ -21,9 +22,7 @@ export default function SkillsSection() {
   return (
     <section className="mt-10">
       <div className="mb-5 flex items-center justify-between">
-        <h2 className="border-b pb-2 text-xl font-semibold">
-          Skills
-        </h2>
+        <h2 className="border-b pb-2 text-xl font-semibold">Skills</h2>
       </div>
 
       <div className="mb-4 flex gap-3">

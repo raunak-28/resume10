@@ -12,7 +12,8 @@ export const simpleTemplate = {
           <h1 className="text-2xl font-bold">{resume.personal.fullName}</h1>
           <div className="text-sm text-slate-600">{resume.personal.title}</div>
           <div className="text-xs text-slate-500 mt-2">
-            {resume.personal.email} • {resume.personal.phone} • {resume.personal.location}
+            {resume.personal.email} • {resume.personal.phone} •{" "}
+            {resume.personal.location}
           </div>
         </header>
 
@@ -25,8 +26,12 @@ export const simpleTemplate = {
           <h2 className="font-semibold">Experience</h2>
           {resume.experiences.map((exp) => (
             <div key={exp.id} className="mb-2">
-              <div className="font-medium">{exp.position} — {exp.company}</div>
-              <div className="text-xs text-slate-500">{exp.startDate} - {exp.endDate} • {exp.location}</div>
+              <div className="font-medium">
+                {exp.position} — {exp.company}
+              </div>
+              <div className="text-xs text-slate-500">
+                {exp.startDate} - {exp.endDate} • {exp.location}
+              </div>
               <ul className="list-disc ml-5 text-sm">
                 {exp.bullets.map((b, i) => (
                   <li key={i}>{b}</li>
@@ -42,7 +47,9 @@ export const simpleTemplate = {
             <div key={p.id} className="mb-2">
               <div className="font-medium">{p.title}</div>
               <div className="text-sm">{p.description.join(" \n")}</div>
-              <div className="text-xs text-slate-500">{p.technologies.join(", ")}</div>
+              <div className="text-xs text-slate-500">
+                {p.technologies.join(", ")}
+              </div>
             </div>
           ))}
         </section>
@@ -52,7 +59,9 @@ export const simpleTemplate = {
           {resume.education.map((edu) => (
             <div key={edu.id} className="mb-2">
               <div className="font-medium">{edu.institute}</div>
-              <div className="text-sm text-slate-600">{edu.degree} • {edu.startDate} - {edu.endDate}</div>
+              <div className="text-sm text-slate-600">
+                {edu.degree} • {edu.startDate} - {edu.endDate}
+              </div>
             </div>
           ))}
         </section>
